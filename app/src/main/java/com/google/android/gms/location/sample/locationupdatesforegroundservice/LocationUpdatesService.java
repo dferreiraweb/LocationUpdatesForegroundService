@@ -63,14 +63,10 @@ import retrofit2.Retrofit;
  */
 public class LocationUpdatesService extends Service {
 
-    private static final String PACKAGE_NAME =
-            "com.google.android.gms.location.sample.locationupdatesforegroundservice";
+    private static final String PACKAGE_NAME = "com.google.android.gms.location.sample.locationupdatesforegroundservice";
 
     private static final String TAG = LocationUpdatesService.class.getSimpleName();
 
-    /**
-     * The name of the channel for notifications.
-     */
     private static final String CHANNEL_ID = "channel_01";
 
     static final String ACTION_BROADCAST = PACKAGE_NAME + ".broadcast";
@@ -159,7 +155,6 @@ public class LocationUpdatesService extends Service {
             NotificationChannel mChannel =
                     new NotificationChannel(CHANNEL_ID, name, NotificationManager.IMPORTANCE_DEFAULT);
 
-            // Set the Notification Channel for the Notification Manager.
             mNotificationManager.createNotificationChannel(mChannel);
         }
     }
@@ -176,7 +171,8 @@ public class LocationUpdatesService extends Service {
             stopSelf();
         }
         // Tells the system to not try to recreate the service after it has been killed.
-        return START_NOT_STICKY;
+
+        return START_STICKY;
     }
 
     @Override

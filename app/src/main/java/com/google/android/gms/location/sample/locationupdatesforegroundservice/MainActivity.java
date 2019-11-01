@@ -24,6 +24,7 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.location.Location;
+import android.location.LocationListener;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -83,7 +84,7 @@ import android.widget.Toast;
  */
 public class MainActivity extends AppCompatActivity implements
         SharedPreferences.OnSharedPreferenceChangeListener {
-    private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String TAG = MainActivity.class.getSimpleName().toUpperCase();
 
     // Used in checking for runtime permissions.
     private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
@@ -166,6 +167,8 @@ public class MainActivity extends AppCompatActivity implements
         // that since this activity is in the foreground, the service can exit foreground mode.
         bindService(new Intent(this, LocationUpdatesService.class), mServiceConnection,
                 Context.BIND_AUTO_CREATE);
+        Intent serviceIntent = new Intent(this, LocationListener.class);
+        startService(serviceIntent);
     }
 
     @Override
@@ -178,6 +181,7 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     protected void onPause() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(myReceiver);
+        Log.d("CICLE", "Activity Pausada");
         super.onPause();
     }
 
@@ -193,6 +197,15 @@ public class MainActivity extends AppCompatActivity implements
         PreferenceManager.getDefaultSharedPreferences(this)
                 .unregisterOnSharedPreferenceChangeListener(this);
         super.onStop();
+        Log.d("CICLE", "Activity Pausada");
+    }
+
+    @Override
+    protected void onDestroy() {
+        mService.requestLocationUpdates();
+        Log.d("CICLE", "Activity destruida");
+
+        super.onDestroy();
     }
 
     /**

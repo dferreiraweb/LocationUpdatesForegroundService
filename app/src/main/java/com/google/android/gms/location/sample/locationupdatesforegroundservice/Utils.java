@@ -51,7 +51,7 @@ class Utils {
 
 
     /**
-     * Returns true if requesting location updates, otherwise returns false.
+     * Retorna true se solicitar atualizações de local, caso contrário, retorna false.
      *
      * @param context The {@link Context}.
      */
@@ -61,8 +61,8 @@ class Utils {
     }
 
     /**
-     * Stores the location updates state in SharedPreferences.
-     * @param requestingLocationUpdates The location updates state.
+     * Armazena o estado das atualizações de localização em SharedPreferences.
+     * @param requestingLocationUpdates O local atualiza o estado.
      */
     static void setRequestingLocationUpdates(Context context, boolean requestingLocationUpdates) {
         PreferenceManager.getDefaultSharedPreferences(context)
@@ -86,6 +86,12 @@ class Utils {
                 DateFormat.getDateTimeInstance().format(new Date()));
     }
 
+
+    /**
+     *
+     * @param location retorna uma url para ser enviada ao link de teste
+     */
+
     static void sendToServer(Location location) {
 
         String baseUrl = "https://quasar-test-two.free.beeceptor.com";
@@ -103,8 +109,14 @@ class Utils {
        Log.d("LOCATION:", retrofit.baseUrl().toString());
     }
 
+    /**
+     * Metodo responsável por fazer a requisição no servidor
+     * @param latitude retorna a latitude do gps
+     * @param longitude retorna a longitude do gps
+     */
     static void intialize(String latitude, String longitude) {
 
+        //Treço para criar e imprimir a data em que o usuario fizer uma requisição do metodo
         Calendar currentTime = Calendar.getInstance();
         TimeZone tz = TimeZone.getTimeZone("America/Sao_Paulo");
         currentTime.setTimeZone(tz);
@@ -131,7 +143,6 @@ class Utils {
 
             @Override
             public void onFailure(Call<JSONObject> call, Throwable t) {
-                Log.d("LOCATION ERROR", "Erro ao enviar localização: " + t.getMessage() + " ! " + t.getLocalizedMessage());
             }
         });
 
